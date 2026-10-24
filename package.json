@@ -1,0 +1,25 @@
+{
+  "name": "spatial-scan",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-first browser photogrammetry with real multiview geometry.",
+  "license": "MIT",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "@techstark/opencv-js": "4.12.0-release.1",
+    "ml-matrix": "6.15.1",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@11.25.0"
+}

@@ -1,0 +1,4 @@
+const VERSION='spatial-__VERSION__';const SHELL=__SHELL__;const RUNTIME=VERSION+'-engine';
+self.addEventListener('install',e=>e.waitUntil(caches.open(VERSION).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('spatial-')&&k!==VERSION&&k!==RUNTIME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{const url=new URL(e.request.url);if(e.request.method!=='GET'||url.origin!==self.location.origin||!url.href.startsWith(self.registration.scope))return;e.respondWith((async()=>{try{const cached=await caches.match(e.request);if(cached)return cached;}catch{}const response=await fetch(e.request);if(response.ok){try{const cache=await caches.open(url.pathname.includes('/vendor/')?RUNTIME:VERSION);await cache.put(e.request,response.clone());}catch{}}return response;})());});

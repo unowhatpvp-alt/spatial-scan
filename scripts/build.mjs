@@ -1,0 +1,18 @@
+import { build } from 'esbuild';
+import { mkdir, copyFile, readFile, writeFile, rm } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+await rm('dist', {recursive:true,force:true});
+await mkdir('dist/vendor',{recursive:true});
+await build({entryPoints:['src/main.js'],bundle:true,minify:true,format:'esm',target:['safari16','chrome110'],outfile:'dist/app.js',legalComments:'eof'});
+await build({entryPoints:['src/reconstruction.worker.js'],bundle:true,minify:true,format:'iife',target:['safari16','chrome110'],outfile:'dist/reconstruction.worker.js',legalComments:'eof'});
+for (const file of ['index.html','style.css','icon.svg','manifest.webmanifest','licenses.txt']) await copyFile('public/'+file,'dist/'+file);
+await copyFile('node_modules/@techstark/opencv-js/dist/opencv.js','dist/vendor/opencv.js');
+await writeFile('dist/.nojekyll','');
+const paths=['./','./index.html','./app.js','./style.css','./icon.svg','./manifest.webmanifest','./reconstruction.worker.js','./licenses.txt'];
+const hash=createHash('sha256');
+for(const p of paths.slice(1))hash.update(await readFile('dist/'+p.slice(2)));
+hash.update(await readFile('dist/vendor/opencv.js'));
+const version=hash.digest('hex').slice(0,12);
+const source=await readFile('public/sw.js','utf8');
+await writeFile('dist/sw.js',source.replace('__VERSION__',version).replace('__SHELL__',JSON.stringify(paths)));
+console.log('Built spatial-scan '+version+' into dist/');
