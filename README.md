@@ -6,6 +6,8 @@ Local-first browser photogrammetry: capture overlapping photographs, reconstruct
 
 Spatial Scan is an experimental **point-cloud reconstruction** tool. It estimates camera motion and triangulates observations across photographs. It does not promise a complete room, a closed mesh, or measurement-grade dimensions.
 
+![Spatial Scan workspace](docs/preview.jpg)
+
 ## What it does
 
 - Capture camera views manually or automatically, or import photographs.

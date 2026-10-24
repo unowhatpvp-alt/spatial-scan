@@ -56,3 +56,7 @@ Before describing a device as verified, record its model, OS/browser version, ca
 ### Cache and cancellation check
 
 After caching the final app shell and OpenCV runtime, the task-owned HTTP preview server was stopped and a separate HTTP request confirmed the origin was unavailable. The browser reloaded the app through its service worker, imported the same public Aloe JPEGs, and reconstructed the same 2,164-point result. Cancellation preserved the two source views, and a subsequent reconstruction succeeded without the server. This verifies cached operation against an unavailable local origin; OS airplane mode and iPhone offline behavior were not tested.
+
+## Published deployment
+
+The [GitHub Pages app](https://unowhatpvp-alt.github.io/spatial-scan/) was deployed through the [successful build and deploy workflow](https://github.com/unowhatpvp-alt/spatial-scan/actions/runs/40123558761). All 15 automated tests passed in development and CI. On the published HTTPS origin, the OpenCV worker initialized and cached successfully with no browser error or warning logs. Importing the same public Aloe stereo photos through the actual interface registered both views and reconstructed 2,164 colored points. The repository preview is an actual screenshot of the published workspace, before loading test photos.
